@@ -1,3 +1,5 @@
 rootProject.name = 'tv'
+include ':react-native-keyevent'
+project(':react-native-keyevent').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-keyevent/android')
 
 include ':app'
