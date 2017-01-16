@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react';
-import { View, DeviceEventEmitter, StyleSheet } from 'react-native';
+import { View, DeviceEventEmitter } from 'react-native';
 
 type TPosition = {
   x: number;
@@ -21,7 +21,11 @@ type TState = {
   selectables: Array<TSelectable>;
 }
 
-export class SelectableContainer extends Component {
+type TProps = {
+  children: any;
+}
+
+export default class SelectableContainer extends Component {
   static childContextTypes = {
     registerSelectable: PropTypes.func,
   }
@@ -31,10 +35,12 @@ export class SelectableContainer extends Component {
     selectables: [],
   }
 
+  props: TProps
+
   _listenerKeyDown: Function
 
   componentDidMount() {
-    this._listenerKeyDown = DeviceEventEmitter.addListener('onKeyDown', this.handleKeyDown); 
+    this._listenerKeyDown = DeviceEventEmitter.addListener('onKeyDown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
@@ -48,7 +54,7 @@ export class SelectableContainer extends Component {
   }
 
   selectNewActive(idxModifier: Function) {
-    if (this.state.activeSelectable){ // blur active Selectable
+    if (this.state.activeSelectable) { // blur active Selectable
       this.state.activeSelectable.onBlur();
     }
 
@@ -56,9 +62,9 @@ export class SelectableContainer extends Component {
     if (this.state.activeSelectable) { // select next Selectable
       const idx = sortedSelectables.indexOf(this.state.activeSelectable);
       const newIdx = idxModifier(idx || 0);
-      if (newIdx >= 0 && newIdx < sortedSelectables.length){
-          sortedSelectables[newIdx].onFocus();
-          this.setState({ activeSelectable: sortedSelectables[newIdx] });
+      if (newIdx >= 0 && newIdx < sortedSelectables.length) {
+        sortedSelectables[newIdx].onFocus();
+        this.setState({ activeSelectable: sortedSelectables[newIdx] });
       } else {
         this.setState({ activeSelectable: null });
       }
@@ -69,12 +75,11 @@ export class SelectableContainer extends Component {
   }
 
   handleKeyDown = (key: number) => {
-    switch (key){
+    switch (key) {
       case 19:  // up arrow
         this.selectNewActive(x => x - 1);
         break;
-      
-      case 20: //down arrow
+      case 20: // down arrow
         this.selectNewActive(x => x + 1);
         break;
       case 23:  // center
@@ -87,7 +92,12 @@ export class SelectableContainer extends Component {
     return true;
   }
 
-  registerSelectable = (position: TPosition, onFocus: Function, onBlur: Function, onPress: Function) => {
+  registerSelectable = (
+    position: TPosition,
+    onFocus: Function,
+    onBlur: Function,
+    onPress: Function
+  ) => {
     this.state.selectables.push({
       x: position.x,
       y: position.y,
@@ -105,63 +115,6 @@ export class SelectableContainer extends Component {
       <View>
         {children}
       </View>
-    )
+    );
   }
 }
-
-export function selectable (WrappedComponent: any) {
-  return class Selectable extends Component {
-    static contextTypes = {
-      registerSelectable: PropTypes.func,
-    }
-
-    state = {
-      isFocused: false,
-      registered: false,
-    }
-
-    handleFocus = () => {
-      const { onFocus = () => {} } = this.props;
-
-      this.setState({ isFocused: true });
-
-      onFocus();
-    }
-
-    handleBlur = () => {
-      const { onBlur = () => {} } = this.props;
-
-      this.setState({ isFocused: false });
-
-      onBlur();
-    }
-
-    handleLayout = ({ nativeEvent }) => {
-      if (this.state.registered) {
-        return;
-      }
-
-      const {
-        onPress = () => {},
-      } = this.props;
-
-      this.context.registerSelectable({ x: nativeEvent.layout.x, y: nativeEvent.layout.y }, this.handleFocus, this.handleBlur, onPress);
-
-      this.setState({ registered: true });
-    }
-
-    render() {
-      return (
-        <View onLayout={this.handleLayout} style={[this.props.style, this.state.isFocused ? styles.active : {}]}>
-          <WrappedComponent {...this.props} />
-        </View>
-      );
-    }
-  };
-}
-
-const styles = StyleSheet.create({
-  active: {
-    opacity: 0.9,
-  },
-});
