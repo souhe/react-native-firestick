@@ -85,6 +85,6 @@ export default function selectable(WrappedComponent: any) {
 
 const styles = StyleSheet.create({
   active: {
-    opacity: 0.9,
+    opacity: 0.7,
   },
 });
