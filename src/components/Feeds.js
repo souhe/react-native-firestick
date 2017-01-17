@@ -6,6 +6,7 @@ import {
   View,
   Button,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 
 import { selectable, SelectableContainer, SelectableInput } from './Selectable';
@@ -22,11 +23,11 @@ type TState = {
 
 const SelectableButton = selectable(Button);
 
-const FeedItem = selectable(({ url, name }) => (
-  <View style={styles.feed}>
+const SelectableFeedItem = selectable(({ url, name, onPress }) => (
+  <TouchableOpacity style={styles.feed} onPress={onPress}>
     <Text>{name}</Text>
     <Text>url: {url}</Text>
-  </View>
+  </TouchableOpacity>
 ));
 
 export default class Feeds extends Component {
@@ -43,7 +44,6 @@ export default class Feeds extends Component {
   handleOpenClick = () => {
     console.log('URL', this.state.url);
     this.setState({ feeds: [...this.state.feeds, { url: this.state.url, name: this.state.url }] });
-    // this.props.navigator.push(Router.getRoute('articles', { url: this.state.url }));
   }
 
   handleTextChange = (text: string) => {
@@ -69,7 +69,7 @@ export default class Feeds extends Component {
           </View>
 
           {feeds.map(feed => (
-            <FeedItem
+            <SelectableFeedItem
               name={feed.name}
               url={feed.url}
               onPress={() => navigator.push(Router.getRoute('articles', { url: feed.url }))}
