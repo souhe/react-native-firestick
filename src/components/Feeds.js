@@ -25,8 +25,8 @@ const SelectableButton = selectable(Button);
 
 const SelectableFeedItem = selectable(({ url, name, onPress }) => (
   <TouchableOpacity style={styles.feed} onPress={onPress}>
-    <Text>{name}</Text>
-    <Text>url: {url}</Text>
+    <Text style={styles.feedName}>{name}</Text>
+    <Text style={styles.feedUrl}>url: {url}</Text>
   </TouchableOpacity>
 ));
 
@@ -56,7 +56,7 @@ export default class Feeds extends Component {
     return (
       <View>
         <SelectableContainer>
-          <View style={styles.feed}>
+          <View style={styles.addContainer}>
             <SelectableInput
               value={url}
               onChangeText={this.handleTextChange}
@@ -86,10 +86,23 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
   },
+  addContainer: {
+    margin: 10,
+    padding: 10,
+    borderLeftWidth: 4,
+    borderLeftColor: '#004b8b',
+  },
   feed: {
     margin: 10,
     padding: 10,
     borderLeftWidth: 4,
     borderLeftColor: 'gray',
+  },
+  feedName: {
+    fontSize: 15,
+  },
+  feedUrl: {
+    fontSize: 10,
+    color: 'gray',
   },
 });
