@@ -32,6 +32,7 @@ export default function selectable(WrappedComponent: any) {
 
     props: TProps
     context: TContext
+    _wrappedComponent: any
 
     handleFocus = () => {
       const { onFocus = () => {} } = this.props;
@@ -75,7 +76,7 @@ export default function selectable(WrappedComponent: any) {
           onLayout={this.handleLayout}
           style={[this.props.style, this.state.isFocused ? styles.active : {}]}
         >
-          <WrappedComponent {...this.props} />
+          <WrappedComponent ref={x => (this._wrappedComponent = x)} {...this.props} />
         </View>
       );
     }
