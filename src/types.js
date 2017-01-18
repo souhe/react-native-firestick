@@ -7,9 +7,6 @@ export type Article = {
   link: string;
   pubDate: Date;
   title: string;
-  guid: {
-    content: string;
-    isPermaLink: bool;
-  };
+  guid: string;
 }
 

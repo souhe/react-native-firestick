@@ -15,10 +15,7 @@ export default function fetchRss(url: string): Array<Article> {
     .then((articles) => articles.map((a) => ({
       ...a,
       pubDate: new Date(a.pubDate),
-      guid: {
-        ...a.guid,
-        isPermaLink: JSON.parse(a.guid.isPermaLink),
-      },
+      guid: a.guid.content ? a.guid.content : a.guid,
     })));
 }
 

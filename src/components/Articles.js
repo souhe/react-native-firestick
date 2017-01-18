@@ -40,7 +40,7 @@ export default class Articles extends Component {
   _getArticles = () => {
     return this.state.articles.map((article) => (
       <ArticleComponent
-        key={article.guid.content}
+        key={article.guid}
         article={article}
       />
     ));
