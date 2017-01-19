@@ -42,7 +42,6 @@ export default class Feeds extends Component {
   }
 
   handleOpenClick = () => {
-    console.log('URL', this.state.url);
     this.setState({ feeds: [...this.state.feeds, { url: this.state.url, name: this.state.url }] });
   }
 
@@ -53,6 +52,7 @@ export default class Feeds extends Component {
   render() {
     const { url, feeds } = this.state;
     const { navigator } = this.props;
+
     return (
       <View>
         <SelectableContainer>

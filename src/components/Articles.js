@@ -3,24 +3,26 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   ActivityIndicator,
 } from 'react-native';
 
 import fetchRss from '../fetchRss';
 import ArticleComponent from './Article';
-import { SelectableContainer } from './Selectable';
+import { SelectableContainer, selectable } from './Selectable';
 import type { Article } from '../types';
 
 type TState = {
   loading: boolean;
-  feeds: Array<Article>;
+  articles: Array<Article>;
   error?: Object;
 }
 
 type TProps = {
   url: string;
+  navigator: any;
 }
+
+const SelectableArticle = selectable(ArticleComponent);
 
 export default class Articles extends Component {
   props: TProps
@@ -39,8 +41,8 @@ export default class Articles extends Component {
 
   _getArticles = () => {
     return this.state.articles.map((article) => (
-      <ArticleComponent
-        key={article.guid.content}
+      <SelectableArticle
+        key={article.guid}
         article={article}
       />
     ));
@@ -50,7 +52,6 @@ export default class Articles extends Component {
     return (
       <View>
         <SelectableContainer>
-          <Text>Articles for {this.props.url}</Text>
           { this.state.loading && <ActivityIndicator animating size="large" /> }
           { this._getArticles() }
         </SelectableContainer>
