@@ -9,4 +9,3 @@ export type Article = {
   title: string;
   guid: string;
 }
-

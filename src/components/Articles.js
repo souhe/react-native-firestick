@@ -3,9 +3,7 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   ActivityIndicator,
-  Linking
 } from 'react-native';
 
 import fetchRss from '../fetchRss';
@@ -15,7 +13,7 @@ import type { Article } from '../types';
 
 type TState = {
   loading: boolean;
-  feeds: Array<Article>;
+  articles: Array<Article>;
   error?: Object;
 }
 

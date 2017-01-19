@@ -2,7 +2,7 @@
 
 import type { Article } from './types';
 
-export default function fetchRss(url: string): Array<Article> {
+export default function fetchRss(url: string): Promise<Array<Article>> {
   return fetch(getYqUrl(url))
     .then((res) => res.json())
     .then((result) => {
@@ -19,7 +19,7 @@ export default function fetchRss(url: string): Array<Article> {
     })));
 }
 
-function getYqUrl(url: string) {
+function getYqUrl(url: string): string {
   const query = encodeURIComponent(`select * from rss where url='${url}'`);
   return `https://query.yahooapis.com/v1/public/yql?q=${query}&format=json`;
 }
