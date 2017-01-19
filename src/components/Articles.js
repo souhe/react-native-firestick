@@ -5,11 +5,12 @@ import {
   View,
   Text,
   ActivityIndicator,
+  Linking
 } from 'react-native';
 
 import fetchRss from '../fetchRss';
 import ArticleComponent from './Article';
-import { SelectableContainer } from './Selectable';
+import { SelectableContainer, selectable } from './Selectable';
 import type { Article } from '../types';
 
 type TState = {
@@ -20,7 +21,10 @@ type TState = {
 
 type TProps = {
   url: string;
+  navigator: any;
 }
+
+const SelectableArticle = selectable(ArticleComponent);
 
 export default class Articles extends Component {
   props: TProps
@@ -39,7 +43,7 @@ export default class Articles extends Component {
 
   _getArticles = () => {
     return this.state.articles.map((article) => (
-      <ArticleComponent
+      <SelectableArticle
         key={article.guid}
         article={article}
       />
@@ -50,7 +54,6 @@ export default class Articles extends Component {
     return (
       <View>
         <SelectableContainer>
-          <Text>Articles for {this.props.url}</Text>
           { this.state.loading && <ActivityIndicator animating size="large" /> }
           { this._getArticles() }
         </SelectableContainer>

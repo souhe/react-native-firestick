@@ -1,7 +1,8 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react';
-import { View, DeviceEventEmitter } from 'react-native';
+import { View } from 'react-native';
+import keyListener from './listener';
 
 type TPosition = {
   x: number;
@@ -40,11 +41,15 @@ export default class SelectableContainer extends Component {
   _listenerKeyDown: Function
 
   componentDidMount() {
-    this._listenerKeyDown = DeviceEventEmitter.addListener('onKeyDown', this.handleKeyDown);
+    this._listenerKeyDown = keyListener.set(this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    this._listenerKeyDown.remove();
+    keyListener.remove(this._listenerKeyDown);
+  }
+
+  componentWillReceiveProps() {
+    this._listenerKeyDown = keyListener.set(this.handleKeyDown, this._listenerKeyDown);
   }
 
   getChildContext() {
