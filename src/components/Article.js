@@ -9,9 +9,7 @@ type TProps = {
   article: TArticle;
 }
 
-export default function Article(props: TProps) {
-  const { article } = props;
-
+export default function Article({ article }: TProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{article.title}</Text>

@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import { View } from 'react-native';
 import keyListener from './keyListener';
+import keyCodes from './keyCodes';
 
 type TPosition = {
   x: number;
@@ -81,13 +82,13 @@ export default class SelectableContainer extends Component {
 
   _handleKeyDown = (key: number) => {
     switch (key) {
-      case 19:  // up arrow
+      case keyCodes.up:
         this._selectNewActive(x => x - 1);
         break;
-      case 20: // down arrow
+      case keyCodes.down:
         this._selectNewActive(x => x + 1);
         break;
-      case 23:  // center
+      case keyCodes.center:
         if (this.state.activeSelectable) {
           this.state.activeSelectable.onPress();
         }
