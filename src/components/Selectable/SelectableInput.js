@@ -10,7 +10,7 @@ const Selectable = selectable(TextInput);
 export default class SelectableInput extends Component {
   _input: any
 
-  handleInputPress = () => {
+  _handleInputPress = () => {
     this._input.focus();
   }
 
@@ -21,7 +21,7 @@ export default class SelectableInput extends Component {
   render() {
     return (
       <Selectable
-        onPress={this.handleInputPress}
+        onPress={this._handleInputPress}
         onSubmitEditing={this.handleSubmit}
         ref={i => (this._input = i ? i._wrappedComponent : null)}
         {...this.props}

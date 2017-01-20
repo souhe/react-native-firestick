@@ -7,13 +7,13 @@ import {
 } from 'react-native';
 
 import fetchRss from '../fetchRss';
-import ArticleComponent from './Article';
+import Article from './Article';
 import { SelectableContainer, selectable } from './Selectable';
-import type { Article } from '../types';
+import type { TArticle } from '../types';
 
 type TState = {
   loading: boolean;
-  articles: Array<Article>;
+  articles: Array<TArticle>;
   error?: Object;
 }
 
@@ -22,7 +22,7 @@ type TProps = {
   navigator: any;
 }
 
-const SelectableArticle = selectable(ArticleComponent);
+const SelectableArticle = selectable(Article);
 
 export default class Articles extends Component {
   props: TProps

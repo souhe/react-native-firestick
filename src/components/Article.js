@@ -3,19 +3,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, WebView } from 'react-native';
 
-import type { Article } from '../types';
+import type { TArticle } from '../types';
 
 type TProps = {
-  article: Article;
+  article: TArticle;
 }
 
-export default function (props: TProps) {
-  const { article } = props;
+export default function Article({ article }: TProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{article.title}</Text>
       <View style={styles.info}>
-        {article.creator && <Text style={styles.infoItem}>Creator: {article.creator}</Text>}
+        {article.creator && (
+          <Text style={styles.infoItem}>Creator: {article.creator}</Text>
+        )}
         <Text style={styles.infoItem}>Date: {article.pubDate.toGMTString()}</Text>
       </View>
       <View style={styles.content}>
@@ -24,7 +25,7 @@ export default function (props: TProps) {
             <WebView
               style={styles.webview}
               startInLoadingState
-              source={{ html: article.description || article.encoded, baseUrl: 'http://localhost:8080' }}
+              source={{ html: article.description || article.encoded }}
             />
           </View>
         )}

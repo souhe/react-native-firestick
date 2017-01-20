@@ -1,13 +1,15 @@
+/* @flow */
+
 import { DeviceEventEmitter } from 'react-native';
 
 let keyListener = null;
 
 export default {
-  isSame(listener) {
+  isSame(listener: Object) {
     return listener === keyListener;
   },
   get: () => keyListener,
-  set(handler, listener) {
+  set(handler: ?Function, listener?: ?Object) {
     if (!listener || !this.isSame(listener)) {
       if (keyListener) keyListener.remove();
       keyListener = DeviceEventEmitter.addListener('onKeyDown', handler);
@@ -16,8 +18,8 @@ export default {
 
     return null;
   },
-  remove(listener) {
-    if (this.isSame(listener)) {
+  remove(listener: ?Object) {
+    if (keyListener && this.isSame(listener)) {
       keyListener.remove();
       keyListener = null;
     }
