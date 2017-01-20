@@ -1,5 +1,5 @@
 /**
- * Sample React Native App
+ * Sample firestick app written in react-native
  * https://github.com/facebook/react-native
  * @flow
  */
@@ -7,14 +7,11 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View
 } from 'react-native';
 
 import App from './src/components/App';
 
-export default class tv extends Component {
+export default class FirestickApp extends Component {
   render() {
     return (
       <App />
@@ -22,23 +19,4 @@ export default class tv extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('tv', () => tv);
+AppRegistry.registerComponent('tv', () => FirestickApp);

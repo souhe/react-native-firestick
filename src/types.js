@@ -1,6 +1,6 @@
 /* @flow */
 
-export type Article = {
+export type TArticle = {
   description?: string;
   encoded?: string;
   creator?: string;
