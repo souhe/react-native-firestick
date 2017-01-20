@@ -4,10 +4,10 @@ import React, { Component, PropTypes } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 type TProps = {
-  onFocus: Function;
-  onBlur: Function;
-  onPress: Function;
-  style: any;
+  onFocus?: Function;
+  onBlur?: Function;
+  onPress?: Function;
+  style?: any;
 }
 
 type TState = {
@@ -34,23 +34,27 @@ export default function selectable(WrappedComponent: any) {
     context: TContext
     _wrappedComponent: any
 
-    handleFocus = () => {
-      const { onFocus = () => {} } = this.props;
+    _handleFocus = () => {
+      const { onFocus } = this.props;
 
       this.setState({ isFocused: true });
 
-      onFocus();
+      if (onFocus) {
+        onFocus();
+      }
     }
 
-    handleBlur = () => {
-      const { onBlur = () => {} } = this.props;
+    _handleBlur = () => {
+      const { onBlur } = this.props;
 
       this.setState({ isFocused: false });
 
-      onBlur();
+      if (onBlur) {
+        onBlur();
+      }
     }
 
-    handleLayout = (e: any) => {
+    _handleLayout = (e: Object) => {
       const { layout } = e.nativeEvent;
       if (this.state.registered) {
         return;
@@ -62,8 +66,8 @@ export default function selectable(WrappedComponent: any) {
 
       this.context.registerSelectable(
         { x: layout.x, y: layout.y },
-        this.handleFocus,
-        this.handleBlur,
+        this._handleFocus,
+        this._handleBlur,
         onPress
       );
 
@@ -73,7 +77,7 @@ export default function selectable(WrappedComponent: any) {
     render() {
       return (
         <View
-          onLayout={this.handleLayout}
+          onLayout={this._handleLayout}
           style={[this.props.style, this.state.isFocused ? styles.active : {}]}
         >
           <WrappedComponent ref={x => (this._wrappedComponent = x)} {...this.props} />

@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { View } from 'react-native';
-import keyListener from './listener';
+import keyListener from './keyListener';
 
 type TPosition = {
   x: number;
@@ -23,7 +23,7 @@ type TState = {
 }
 
 type TProps = {
-  children: any;
+  children?: any;
 }
 
 export default class SelectableContainer extends Component {
@@ -38,10 +38,10 @@ export default class SelectableContainer extends Component {
 
   props: TProps
 
-  _listenerKeyDown: Function
+  _listenerKeyDown: ?Function
 
   componentDidMount() {
-    this._listenerKeyDown = keyListener.set(this.handleKeyDown);
+    this._listenerKeyDown = keyListener.set(this._handleKeyDown);
   }
 
   componentWillUnmount() {
@@ -49,16 +49,16 @@ export default class SelectableContainer extends Component {
   }
 
   componentWillReceiveProps() {
-    this._listenerKeyDown = keyListener.set(this.handleKeyDown, this._listenerKeyDown);
+    this._listenerKeyDown = keyListener.set(this._handleKeyDown, this._listenerKeyDown);
   }
 
   getChildContext() {
     return {
-      registerSelectable: this.registerSelectable,
+      registerSelectable: this._registerSelectable,
     };
   }
 
-  selectNewActive(idxModifier: Function) {
+  _selectNewActive(idxModifier: Function) {
     if (this.state.activeSelectable) { // blur active Selectable
       this.state.activeSelectable.onBlur();
     }
@@ -79,13 +79,13 @@ export default class SelectableContainer extends Component {
     }
   }
 
-  handleKeyDown = (key: number) => {
+  _handleKeyDown = (key: number) => {
     switch (key) {
       case 19:  // up arrow
-        this.selectNewActive(x => x - 1);
+        this._selectNewActive(x => x - 1);
         break;
       case 20: // down arrow
-        this.selectNewActive(x => x + 1);
+        this._selectNewActive(x => x + 1);
         break;
       case 23:  // center
         if (this.state.activeSelectable) {
@@ -97,7 +97,7 @@ export default class SelectableContainer extends Component {
     return true;
   }
 
-  registerSelectable = (
+  _registerSelectable = (
     position: TPosition,
     onFocus: Function,
     onBlur: Function,
